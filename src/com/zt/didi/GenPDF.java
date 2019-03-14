@@ -81,9 +81,9 @@ public class GenPDF {
     }
 
     public static void main(String[] args) {
-        //上面数字  carlibri 28
-        //下面数字  carlibri 24
-        //下面中文  微软雅黑 19
+        //上面数字  carlibri 29
+        //下面数字  carlibri 26
+        //下面中文  微软雅黑 22
         Map<String,String> map = new HashMap();
         map.put("root_path","D");
         map.put("apply_date","2019-01-01");
