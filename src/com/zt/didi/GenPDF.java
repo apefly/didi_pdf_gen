@@ -20,7 +20,7 @@ public class GenPDF {
         // 模板路径
         String templatePath = "didi_template.pdf";
         // 生成的新文件路径
-        tOutputPDFPath = datemap.get("root_path")+":/滴滴出行行程报销单_"+(datemap.get("date_from"))+".pdf";
+        tOutputPDFPath = datemap.get("root_path")+"/滴滴出行行程报销单_"+(datemap.get("date_from"))+".pdf";
         PdfReader reader;
         FileOutputStream out;
         ByteArrayOutputStream bos;

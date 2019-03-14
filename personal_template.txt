@@ -1,0 +1,12 @@
+input_root_path::::D:
+input_apply_date::::1
+input_travel_date::::2
+input_phone::::3
+input_amount::::4
+input_time::::5
+input_weekday::::6
+input_city::::7
+input_address_from::::8
+input_address_to::::9
+input_miles::::0
+input_apply_date::::1

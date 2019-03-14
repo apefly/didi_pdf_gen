@@ -1,5 +1,6 @@
 package com.zt.didi;
 
+import java.io.*;
 import java.util.*;
 import java.awt.*;
 import javax.swing.*;
@@ -14,7 +15,7 @@ public class GUIPDF {
 class PDFInterface extends JFrame {
 //    JLabel label_remark = new JLabel("（请使用【退出】按钮，不要使用右上角的【X】，否则无法关闭JAVA进程）");
 
-    JLabel lable_root_path = new JLabel("生成盘符，不可为C (eg: D)");
+    JLabel lable_root_path = new JLabel("根目录，不可为C盘下位置 (eg: D:)");
     JTextField input_root_path = new JTextField(1);
     JLabel label_apply_date = new JLabel("申请日期 (eg: yyyy-mm-dd)");
     JTextField input_apply_date = new JTextField(10);
@@ -38,7 +39,9 @@ class PDFInterface extends JFrame {
     JTextField input_miles = new JTextField(10);
 
     JButton button = new JButton("生成PDF");
-    JButton button1 = new JButton("测试值");
+    JButton button1 = new JButton("重置");
+    JButton btn_SaveAsTemp = new JButton("存为样板");
+    JButton btn_LoadTemp = new JButton("从样板载入");
 
     JTextArea text_result = new JTextArea("...");
 
@@ -51,11 +54,13 @@ class PDFInterface extends JFrame {
         JPanel buttonpanel = new JPanel();
         buttonpanel.add(button);
         buttonpanel.add(button1);
+        buttonpanel.add(btn_SaveAsTemp);
+        buttonpanel.add(btn_LoadTemp);
         this.add(buttonpanel);
 
         JPanel inputpanel = new JPanel(new GridLayout(12,2));
 
-        input_root_path.setText("D");
+        input_root_path.setText("D:");
         inputpanel.add(input_root_path);
         inputpanel.add(lable_root_path);
         inputpanel.add(input_apply_date);
@@ -132,16 +137,89 @@ class PDFInterface extends JFrame {
 
         button1.addActionListener(new ActionListener () {
             public void actionPerformed(ActionEvent e){
-                input_apply_date.setText("2019-03-12");
-                input_travel_date.setText("2019-02-27");
-                input_phone.setText("13812345678");
-                input_amount.setText("123.45");
-                input_time.setText("21:35");
-                input_weekday.setText("周三");
+                input_root_path.setText("D:");
+                input_apply_date.setText("");
+                input_travel_date.setText("7");
+                input_phone.setText("");
+                input_amount.setText("");
+                input_time.setText("");
+                input_weekday.setText("");
                 input_city.setText("北京市");
                 input_address_from.setText("北京理工大学中关村国防科技园");
-                input_address_to.setText("回龙观流星花园三区 - 西门");
-                input_miles.setText("27.1");
+                input_address_to.setText("");
+                input_miles.setText("");
+            }
+        });
+
+        btn_SaveAsTemp.addActionListener(new ActionListener () {
+            public void actionPerformed(ActionEvent e){
+                try {
+                    File file = new File("personal_template.txt");
+                    if(file.exists()){
+                        FileWriter fw = new FileWriter(file,false);
+                        BufferedWriter bw = new BufferedWriter(fw);
+
+                        if(!"".equals(input_root_path.getText())){bw.write("input_root_path::::"+input_root_path.getText()+"\r\n");}
+                        if(!"".equals(input_apply_date.getText())){bw.write("input_apply_date::::"+input_apply_date.getText()+"\r\n");}
+                        if(!"".equals(input_travel_date.getText())){bw.write("input_travel_date::::"+input_travel_date.getText()+"\r\n");}
+                        if(!"".equals(input_phone.getText())){bw.write("input_phone::::"+input_phone.getText()+"\r\n");}
+                        if(!"".equals(input_amount.getText())){bw.write("input_amount::::"+input_amount.getText()+"\r\n");}
+                        if(!"".equals(input_time.getText())){bw.write("input_time::::"+input_time.getText()+"\r\n");}
+                        if(!"".equals(input_weekday.getText())){bw.write("input_weekday::::"+input_weekday.getText()+"\r\n");}
+                        if(!"".equals(input_city.getText())){bw.write("input_city::::"+input_city.getText()+"\r\n");}
+                        if(!"".equals(input_address_from.getText())){bw.write("input_address_from::::"+input_address_from.getText()+"\r\n");}
+                        if(!"".equals(input_address_to.getText())){bw.write("input_address_to::::"+input_address_to.getText()+"\r\n");}
+                        if(!"".equals(input_miles.getText())){bw.write("input_miles::::"+input_miles.getText()+"\r\n");}
+                        if(!"".equals(input_apply_date.getText())){bw.write("input_apply_date::::"+input_apply_date.getText()+"\r\n");}
+
+                        bw.close(); fw.close();
+                        System.out.println("test1 done!");
+                    }
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                    // TODO: handle exception
+                }
+            }
+        });
+
+        btn_LoadTemp.addActionListener(new ActionListener () {
+            public void actionPerformed(ActionEvent e){
+                File personalTemp = new File("personal_template.txt");
+                if(personalTemp.isFile() && personalTemp.exists()){
+                    try {
+                        FileInputStream fileInputStream = new FileInputStream(personalTemp);
+                        InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream, "GBK");
+                        BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+                        StringBuffer sb = new StringBuffer();
+                        String text = null;
+                        String[] rowInfo = new String[2];
+                        while((text = bufferedReader.readLine()) != null){
+                            sb.append(text);
+                            System.out.println(text);
+                            if(text!=null && text.indexOf("::::")>=0){
+                                rowInfo = text.split("::::");
+                                if("input_root_path".equals(rowInfo[0])){input_root_path.setText(rowInfo[1]);}
+                                else if("input_apply_date".equals(rowInfo[0])){input_apply_date.setText(rowInfo[1]);}
+                                else if("input_travel_date".equals(rowInfo[0])){input_travel_date.setText(rowInfo[1]);}
+                                else if("input_phone".equals(rowInfo[0])){input_phone.setText(rowInfo[1]);}
+                                else if("input_amount".equals(rowInfo[0])){input_amount.setText(rowInfo[1]);}
+                                else if("input_time".equals(rowInfo[0])){input_time.setText(rowInfo[1]);}
+                                else if("input_weekday".equals(rowInfo[0])){input_weekday.setText(rowInfo[1]);}
+                                else if("input_city".equals(rowInfo[0])){input_city.setText(rowInfo[1]);}
+                                else if("input_address_from".equals(rowInfo[0])){input_address_from.setText(rowInfo[1]);}
+                                else if("input_address_to".equals(rowInfo[0])){input_address_to.setText(rowInfo[1]);}
+                                else if("input_miles".equals(rowInfo[0])){input_miles.setText(rowInfo[1]);}
+                            }
+                        }
+                        if(sb==null || "".equals(sb.toString())){
+                            text_result.setText("未设定过模板");
+                        }
+                    } catch (Exception e1) {
+                        e1.printStackTrace();
+                        // TODO: handle exception
+                    }
+                }
             }
         });
 
