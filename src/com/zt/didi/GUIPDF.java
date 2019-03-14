@@ -139,7 +139,7 @@ class PDFInterface extends JFrame {
             public void actionPerformed(ActionEvent e){
                 input_root_path.setText("D:");
                 input_apply_date.setText("");
-                input_travel_date.setText("7");
+                input_travel_date.setText("");
                 input_phone.setText("");
                 input_amount.setText("");
                 input_time.setText("");
