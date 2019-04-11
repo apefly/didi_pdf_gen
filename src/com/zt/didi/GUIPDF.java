@@ -178,7 +178,7 @@ class PDFInterface extends JFrame {
                         if(!"".equals(input_phone.getText())){bw.write("input_phone::::"+input_phone.getText()+"\r\n");}
 
                         bw.close(); fw.close();
-                        System.out.println("test1 done!");
+                      text_result.setText("模板保存成功！");
                     }
                 } catch (Exception e1) {
                     e1.printStackTrace();
@@ -222,6 +222,7 @@ class PDFInterface extends JFrame {
                         if(sb==null || "".equals(sb.toString())){
                             text_result.setText("未设定过模板");
                         }
+                      text_result.setText("模板载入成功！");
                     } catch (Exception e1) {
                         e1.printStackTrace();
                         // TODO: handle exception
@@ -256,6 +257,7 @@ class PDFInterface extends JFrame {
                   .toString();
 
               text_TravelInfo.append(travelInfoKey);
+              text_result.setText("行程已添加！");
             }
         });
 
@@ -277,6 +279,7 @@ class PDFInterface extends JFrame {
               didiInfoMap.put("img_path","template/blank.jpg");
 
               GenPDF.pdfPrint(didiInfoMap);
+              text_result.setText("文件生成在:"+GenPDF.getOutPutPath());
             }
         });
 
