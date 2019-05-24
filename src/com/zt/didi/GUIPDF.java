@@ -158,10 +158,11 @@ class PDFInterface extends JFrame {
         btn_SaveAsTemp.addActionListener(new ActionListener () {
             public void actionPerformed(ActionEvent e){
                 try {
-                    File file = new File("personal_template.txt");
-                    if(file.exists()){
-                        FileWriter fw = new FileWriter(file,false);
-                        BufferedWriter bw = new BufferedWriter(fw);
+//                    File file = new File("personal_template.txt");
+//                    if(file.exists()){
+//                        FileWriter fw = new FileWriter(file,false);
+//                        BufferedWriter bw = new BufferedWriter(fw);
+                        BufferedWriter bw = new BufferedWriter (new OutputStreamWriter (new FileOutputStream ("personal_template.txt",true),"UTF-8"));
 
                       if(!"".equals(input_travel_type.getText())){bw.write("input_travel_type::::"+input_travel_type.getText()+"\r\n");}
                       if(!"".equals(input_travel_date.getText())){bw.write("input_travel_date::::"+input_travel_date.getText()+"\r\n");}
@@ -177,9 +178,10 @@ class PDFInterface extends JFrame {
                         if(!"".equals(input_apply_date.getText())){bw.write("input_apply_date::::"+input_apply_date.getText()+"\r\n");}
                         if(!"".equals(input_phone.getText())){bw.write("input_phone::::"+input_phone.getText()+"\r\n");}
 
-                        bw.close(); fw.close();
+                        bw.close();
+//                        fw.close();
                       text_result.setText("模板保存成功！");
-                    }
+//                    }
                 } catch (Exception e1) {
                     e1.printStackTrace();
                     // TODO: handle exception
